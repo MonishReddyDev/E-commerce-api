@@ -12,7 +12,7 @@ export const createProductService = async (name, description, price, countInStoc
 
     //if the Product name is alredy in db
     if (productWithSameNameExist) {
-        throw new CustomError(400, ERROR_MESSAGES.PRODUCT_NAME_DUBLICATE);
+        throw new CustomError(ERROR_MESSAGES.PRODUCT_NAME_DUBLICATE, 400);
     }
 
     if (!productWithSameNameExist) {

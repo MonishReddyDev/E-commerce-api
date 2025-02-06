@@ -1,56 +1,47 @@
-import winston, { loggers } from "winston";
-const { combine, timestamp, printf } = winston.format;
+import { createLogger, format, transports } from "winston";
+const { combine, timestamp, json, printf } = format;
 
-const myFormat = printf(({ level, message, timestamp }) => {
-    return `${timestamp} [${level.toUpperCase()}]: ${message}`;
-});
-
-const colors = {
-    error: "red",
-    warn: "yellow",
-    info: "blue",
-    http: "green",
-    debug: "megenta",
-
-}
+// Custom format for file logging (pretty-printed JSON)
+const fileLogFormat = combine(
+    timestamp(),
+    printf(({ level, message, timestamp, ...rest }) => {
+        const restString = Object.keys(rest).length ? JSON.stringify(rest, null, 2) : "";
+        return `${timestamp} [${level}]: ${message} ${restString}`;
+    })
+);
 
 
-winston.addColors(colors);
+// Custom format for console logging with colors
+const consoleLogFormat = format.combine(
+    format.colorize(),
+    format.printf(({ level, message, timestamp }) => {
+        return `${level}: ${message}`;
+    })
+);
 
-const logger = winston.createLogger({
-    level: 'debug',
-    format: combine(
-        timestamp(),
-        myFormat
-    ),
+
+// Create a Winston logger with separate transports for info and error
+const logger = createLogger({
+    level: "info",
+    format: combine(timestamp(), json()),
     transports: [
-        new winston.transports.Console({
-            level: 'debug',
-            format: winston.format.combine(
-                winston.format.colorize({ all: true }),
-                timestamp(),
-                myFormat,
-                winston.format.simple(),
-
-
-            )
-
+        new transports.Console({
+            format: consoleLogFormat,
         }),
-        new winston.transports.File({ filename: './src/logs/error.log', level: 'error' }),
-        new winston.transports.File({ filename: './src/logs/combined.log' }),
+        new transports.File({
+            filename: "logs/info.log",
+            level: "info", // Only log info level and higher
+            format: fileLogFormat,
+            // silent: (info) => info.level === "error",
+        }),
+        // Error log transport
+        new transports.File({
+            filename: "logs/error.log",
+            level: "error", // Only log error level and higher
+            format: fileLogFormat,
+        }),
     ],
 });
 
-//
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
-// if (process.env.NODE_ENV !== 'production') {
-//     logger.add(new winston.transports.Console({
-//         format: winston.format.simple(),
-//     }));
-// }
 
-
-
-export default logger
+export default logger;

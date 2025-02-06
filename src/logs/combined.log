@@ -1,0 +1,41 @@
+2025-02-06T04:12:11.810Z [INFO]: Server running on port 4000
+2025-02-06T04:12:19.220Z [ERROR]: User already exists
+2025-02-06T04:12:19.245Z [HTTP]: POST /api/auth/register 500 271.439 ms
+
+2025-02-06T04:13:38.627Z [INFO]: Server running on port 4000
+2025-02-06T04:13:41.938Z [ERROR]: User already exists
+2025-02-06T04:13:41.945Z [HTTP]: POST /api/auth/register 500 44.624 ms
+
+undefined [INFO]: Server running on port 4000
+undefined [ERROR]: User already exists
+undefined [HTTP]: POST /api/auth/register 500 54.844 ms
+
+2025-02-06T04:14:08.119Z [INFO]: Server running on port 4000
+undefined [INFO]: Server running on port 4000
+undefined [ERROR]: User already exists
+undefined [HTTP]: POST /api/auth/register 500 16.565 ms
+
+undefined [INFO]: Server running on port 4000
+info: Server running on port 4000
+undefined [INFO]: Server running on port 4000
+2025-02-06T04:14:33.819Z [INFO]: Server running on port 4000
+2025-02-06T04:17:46.277Z [INFO]: Server running on port 4000
+2025-02-06T04:17:47.837Z [INFO]: Server running on port 4000
+2025-02-06T04:18:34.795Z [INFO]: Server running on port 4000
+2025-02-06T04:19:12.853Z [INFO]: Server running on port 4000
+2025-02-06T04:19:14.771Z [ERROR]: User already exists
+2025-02-06T04:19:14.778Z [HTTP]: POST /api/auth/register 500 50.989 ms
+
+undefined [INFO]: Server running on port 4000
+undefined [INFO]: Server running on port 4000
+undefined [ERROR]: User already exists
+undefined [HTTP]: POST /api/auth/register 500 20.360 ms
+
+undefined [INFO]: Server running on port 4000
+undefined [INFO]: Server running on port 4000
+undefined [INFO]: Server running on port 4000
+2025-02-06T04:20:04.520Z [INFO]: Server running on port 4000
+2025-02-06T16:16:28.132Z [INFO]: Server running on port 4000
+2025-02-06T16:16:39.762Z [ERROR]: User already exists
+2025-02-06T16:16:39.772Z [HTTP]: POST /api/auth/register 500 35.019 ms
+

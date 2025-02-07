@@ -6,16 +6,16 @@ import logger from "../utils/logger.js";
 const globalErrorHandler = (err, req, res, next) => {
 
     // Use This for more logg info 
-    // const logMessage = `
-    // Error occurred:
-    // - Message: ${err.message}
-    // - Status Code: ${err.statuscode || 500}
-    // - HTTP Method: ${req.method}
-    // - URL: ${req.originalUrl}
-    // ${process.env.NODE_ENV === "development" ? `- Stack Trace: ${err.stack}` : ""}
-    // `;
+    const logMessage = `
+    Error occurred:
+    - Message: ${err.message}
+    - Status Code: ${err.statuscode || 500}
+    - HTTP Method: ${req.method}
+    - URL: ${req.originalUrl}
+    ${process.env.NODE_ENV === "development" ? `- Stack Trace: ${err.stack}` : ""}
+    `;
 
-    const logMessage = err.message
+    // const logMessage = err.message
     logger.error(logMessage)
 
     //This sent as a API error response 

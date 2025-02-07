@@ -1,11 +1,36 @@
 // services/order.service.js
 import Order from "../models/order.model.js"
-import { CustomError } from "../utils/CustomeError.js"
+import { calculateTotalPrice, decreaseStock } from "../utils/custom.js";
+import { CustomError } from "../utils/CustomeError.js";
+import logger from "../utils/logger.js"
+
+
+
 
 // Place a new order
-export const placeOrderService = async (userId, products, totalAmount) => {
-    const newOrder = new Order({ userId, products, totalAmount });
+export const placeOrderService = async (userId, products, idempotencyKey) => {
+
+    if (!products || products.length === 0) {
+        throw new Error("Products array cannot be empty");
+    }
+
+    const existingOrder = await Order.findOne({ userId, idempotencyKey })
+
+    if (existingOrder) {
+        logger.info("The order already exist ")
+        return existingOrder;
+    }
+
+    const totalAmount = await calculateTotalPrice(products)
+
+    const newOrder = new Order({
+        userId, products, totalAmount, idempotencyKey,
+    });
     await newOrder.save();
+    // Update the stock for each product
+    await decreaseStock(products);
+
+
     return newOrder;
 };
 

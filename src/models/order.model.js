@@ -1,4 +1,6 @@
+
 import mongoose from "mongoose";
+
 
 
 const orderSchema = new mongoose.Schema({
@@ -9,12 +11,11 @@ const orderSchema = new mongoose.Schema({
             quantity: { type: Number, required: true },
         }
     ],
-    totalAmount: { type: Number, required: true },
+    idempotencyKey: { type: String, required: true },
+    totalAmount: { type: String },
     status: { type: String, enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], default: 'Pending' },
     orderDate: { type: Date, default: Date.now },
-
 })
-
 
 const Order = mongoose.model("Order", orderSchema)
 

@@ -2,14 +2,18 @@
 
 import { getAllOrdersService, placeOrderService, updateOrderService } from "../services/order.service.js";
 import asyncErrorHandler from "../utils/asyncErrorHandler.js"
+
+
 // Place a new order
 export const placeOrder = asyncErrorHandler(async (req, res) => {
-    const { userId, products, totalAmount } = req.body;
+    const { userId, products, idempotencyKey } = req.body;
 
     // Call the service to place the order
-    const newOrder = await placeOrderService(userId, products, totalAmount);
+    const newOrder = await placeOrderService(userId, products, idempotencyKey);
+
     res.status(201).json(newOrder);
 });
+
 
 // Get all orders for a user
 export const getAllOrders = asyncErrorHandler(async (req, res) => {

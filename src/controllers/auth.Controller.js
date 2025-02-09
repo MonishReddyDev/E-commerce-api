@@ -8,14 +8,14 @@ import { responseMessages } from '../utils/messages.js';
 
 // Register user
 export const registerUser = asyncErrorHandler(async (req, res) => {
-    const { username, password, email } = req.body;
+    const { username, password, email, role } = req.body;
 
     // Await the service function
-    const user = await registerUserService(username, password, email);
+    const user = await registerUserService(username, password, email, role);
 
     // Success response
     sendSuccessResponse(res, 201, responseMessages.registerUser, {
-        user: { id: user.id, email: user.email, username: user.username },
+        user: { id: user.id, email: user.email, username: user.username, role },
     });
 });
 

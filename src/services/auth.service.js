@@ -5,7 +5,7 @@ import { CustomError } from "../utils/CustomeError.js";
 
 
 
-export const registerUserService = async (username, password, email) => {
+export const registerUserService = async (username, password, email, role) => {
 
     const userExists = await User.findOne({ email });
 
@@ -13,7 +13,7 @@ export const registerUserService = async (username, password, email) => {
         throw new CustomError(ERROR_MESSAGES.USER_EXISTS, 400);
     }
 
-    const user = new User({ username, password, email });
+    const user = new User({ username, password, email, role });
     await user.save();
     return user;
 };
@@ -35,7 +35,7 @@ export const userLoginService = async (email, password) => {
     if (!isMatch) throw new CustomError(ERROR_MESSAGES.INVALID_CREDENTIALS, 400);
 
     // Generate a JWT token.
-    const token = generateToken({ id: user._id, email: user.email });
+    const token = generateToken({ id: user._id, role: user.role, email: user.email });
 
     return { user, token };
 };

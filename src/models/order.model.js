@@ -15,6 +15,7 @@ const orderSchema = new mongoose.Schema({
     totalAmount: { type: String },
     status: { type: String, enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], default: 'Pending' },
     orderDate: { type: Date, default: Date.now },
+    paymentStatus: { type: String, enum: ['Pending', 'Completed', 'Failed'], default: 'Pending' }
 })
 
 const Order = mongoose.model("Order", orderSchema)

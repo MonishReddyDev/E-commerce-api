@@ -32,6 +32,9 @@ export const registerSchema = Joi.object({
             "string.empty": "Password is required",
             "any.required": "Password is required",
         }),
+    role: Joi.string()
+        .valid('admin', 'user', 'guest') // Validates that the role is one of the three specified
+    // .required()
 });
 
 

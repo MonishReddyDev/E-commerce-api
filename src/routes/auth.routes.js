@@ -11,7 +11,6 @@ router.post('/register', validateUserRegistration, registerUser);
 router.post('/login', loginUser);
 router.post('/logout', authenticateJWT, logoutUser);
 
-
 // Protected route
 router.get('/profile', authenticateJWT, (req, res) => {
     res.json({ message: 'This is a protected route', user: req.user });

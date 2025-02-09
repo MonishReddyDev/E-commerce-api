@@ -1,3 +1,4 @@
+import Cart from "../models/cart.model.js";
 import Product from "../models/product.model.js";
 
 
@@ -27,3 +28,19 @@ export const decreaseStock = async (products) => {
     }
 
 }
+
+
+export const findCartByUserId = async (userId) => {
+    try {
+        // Find the cart associated with the user
+        const cart = await Cart.findOne({ user: userId }).populate('user');
+
+        if (!cart) {
+            throw new Error('Cart not found for this user.');
+        }
+
+        return cart;
+    } catch (error) {
+        throw new Error('Error retrieving cart: ' + error.message);
+    }
+};

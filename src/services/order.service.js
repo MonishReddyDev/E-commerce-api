@@ -1,16 +1,22 @@
 // services/order.service.js
+import Cart from "../models/cart.model.js";
 import Order from "../models/order.model.js"
-import { calculateTotalPrice, decreaseStock } from "../utils/custom.js";
-import { CustomError } from "../utils/CustomeError.js";
+import { calculateTotalPrice, decreaseStock, findCartByUserId } from "../utils/custom.js";
+import { CustomError } from "../utils/customeError.js";
 import logger from "../utils/logger.js"
-import stripe from "../utils/stripe.js";
-
 
 
 
 // Place a new order
 export const placeOrderService = async (userId, products, idempotencyKey, loggedInUser) => {
 
+    // Find the cart associated with the user
+    const cart = await findCartByUserId(userId);
+
+    // Check if the cart is empty
+    if (cart.items.length === 0) {
+        throw new Error("Your cart is empty. Please add items to your cart before placing an order.!");
+    }
 
     if (!products || products.length === 0) {
         throw new Error("Products array cannot be empty");

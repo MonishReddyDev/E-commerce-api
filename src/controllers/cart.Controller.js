@@ -1,5 +1,9 @@
-import { addToCartService, removeFromCartService, updateCartService } from "../services/cart.service.js";
+import Cart from "../models/cart.model.js";
+import { addToCartService, getUserCartByUserIdService, removeFromCartService, updateCartService } from "../services/cart.service.js";
 import asyncErrorHandler from "../utils/asyncErrorHandler.js";
+import sendSuccessResponse from "../utils/responseHandler.js";
+
+
 
 
 
@@ -10,6 +14,7 @@ export const addToCart = asyncErrorHandler(async (req, res) => {
 
     // Call the service to add product to cart
     const cart = await addToCartService(productId, userId, quantity);
+
 
     res.status(200).json({
         message: "Product added to cart",
@@ -30,6 +35,22 @@ export const updateCart = asyncErrorHandler(async (req, res) => {
         updatedCart,
     });
 });
+
+
+
+//Todo
+//Only admin 
+export const getUserCart = asyncErrorHandler(async (req, res) => {
+    const { userId } = req.body
+
+    //find the cart with userid==cartid
+    // Find the cart associated with the user
+    const cart = await getUserCartByUserIdService(userId);
+
+
+    sendSuccessResponse(res, 200, "User Cart Retrived successfully", { cart });
+
+})
 
 // Remove product from cart
 export const removeFromCart = asyncErrorHandler(async (req, res) => {

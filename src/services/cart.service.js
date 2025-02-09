@@ -1,6 +1,6 @@
 import Product from "../models/product.model.js"
 import Cart from "../models/cart.model.js"
-
+import { CustomError } from "../utils/customeError.js"
 
 // Add product to cart
 export const addToCartService = async (productId, userId, quantity) => {
@@ -10,6 +10,7 @@ export const addToCartService = async (productId, userId, quantity) => {
     }
 
     let cart = await Cart.findOne({ user: userId });
+
     if (!cart) {
         cart = new Cart({
             user: userId,
@@ -79,3 +80,16 @@ export const removeFromCartService = async (productId, userId) => {
     const updatedCart = await Cart.findOne({ user: userId });
     return updatedCart;
 };
+
+//getUserCart
+
+export const getUserCartByUserIdService = async (userId) => {
+
+    const cart = await Cart.findOne({ user: userId }).populate('user', 'email');
+
+    if (!cart) {
+        throw new Error('Cart not found for this user.');
+    }
+
+    return cart;
+}

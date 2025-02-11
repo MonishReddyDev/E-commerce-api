@@ -3,16 +3,11 @@ import Cart from "../models/cart.model.js";
 import Order from "../models/order.model.js"
 import { calculateTotalPrice, decreaseStock } from "../utils/custom.js";
 import { CustomError } from "../utils/customeError.js";
+import User from "../models/user.model.js"
 
 
+export const placeOrderService = async (userId) => {
 
-export const placeOrderService = async (userId, loggedInUser) => {
-
-
-    // Check if the logged-in user matches the userId
-    if (userId !== loggedInUser) {
-        throw new CustomError("You can only place an order for yourself.", 403);
-    }
     // Fetch the user's cart and populate the product details
     const userCart = await Cart.findOne({ user: userId }).populate('items.product', 'price countInStock');
 
@@ -30,21 +25,35 @@ export const placeOrderService = async (userId, loggedInUser) => {
 
     await decreaseStock(userCart)
 
+    // Get the username of the user who placed the order
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new CustomError("User not found.", 404);
+    }
+
+    const username = user.username;  // Get the username
+
     // Place the order
     const newOrder = new Order({
-        user: userId,
+        userId,
+        username,
         products: userCart.items,
         totalAmount,
     });
 
-    // Save the order
-    await newOrder.save();
-
-    // Clear the cart after placing the order
+    // Clear the cart 
     await Cart.findOneAndUpdate({ user: userId }, { items: [] });
+
+    try {
+        // Save the order only if all checks pass and stock is successfully decreased
+        await newOrder.save();
+    } catch (error) {
+        throw new CustomError("Error occurred while placing the order.", 500); // If order save fails, stop here
+    }
 
     return newOrder;
 };
+
 
 // Get all orders for a user
 export const getAnyUserOrdersService = async (userId) => {

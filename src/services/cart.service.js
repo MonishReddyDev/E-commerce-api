@@ -2,11 +2,35 @@ import Product from "../models/product.model.js"
 import Cart from "../models/cart.model.js"
 import { CustomError } from "../utils/customeError.js"
 
+
+
+function updateProdutPriceAndQuantity(productIndex, cart, product) {
+    if (productIndex > -1) {
+        cart.items[productIndex].quantity += quantity;
+        cart.items[productIndex].price = product.price * cart.items[productIndex].quantity;
+    } else {
+        cart.items.push({
+            product: productId,
+            quantity,
+            price: product.price,
+        });
+    }
+
+}
 // Add product to cart
 export const addToCartService = async (productId, userId, quantity) => {
+
     const product = await Product.findById(productId);
+
+    if (quantity < 0) {
+        throw new CustomError("Quantity must be greater than 0", 400);
+    }
     if (!product) {
         throw new CustomError("Product Not Found", 404);
+    }
+    //Check weather the product is outOffStock
+    if (product.countInStock < quantity) {
+        throw new CustomError("Product is outOffStock", 400);
     }
 
     let cart = await Cart.findOne({ user: userId });
@@ -19,6 +43,7 @@ export const addToCartService = async (productId, userId, quantity) => {
     }
 
     const productIndex = cart.items.findIndex(item => item.product.toString() === productId);
+
     if (productIndex > -1) {
         cart.items[productIndex].quantity += quantity;
         cart.items[productIndex].price = product.price * cart.items[productIndex].quantity;

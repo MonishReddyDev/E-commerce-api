@@ -1,5 +1,4 @@
 import Cart from "../models/cart.model.js";
-import Product from "../models/product.model.js";
 
 
 
@@ -7,24 +6,29 @@ export function roundUpToTwo(number) {
     return Math.ceil(number * 100) / 100;
 }
 
-export const calculateTotalPrice = async (products) => {
-    let total = 0
-    for (const item of products) {
-        const product = await Product.findById(item.productId);
-        if (!product) throw new Error(`Product with ID ${item.productId} not found`);
+export const calculateTotalPrice = async (userCart) => {
+    let totalAmount = 0;
+    for (const item of userCart.items) {
+        const product = item.product;
 
-        // Multiply the current product price with the ordered quantity
-        total += product.price * item.quantity;
+        if (!product) {
+            throw new CustomError(`Product with ID ${item.product} not found.`, 404);
+        }
+
+        if (product.countInStock < item.quantity) {
+            throw new CustomError(`Product ${product._id} is out of stock.`, 400);
+        }
+
+        totalAmount += product.price * item.quantity;
     }
-    return roundUpToTwo(total);
+    return totalAmount
 }
 
-export const decreaseStock = async (products) => {
-    for (const item of products) {
-        await Product.findByIdAndUpdate(
-            { _id: item.productId },
-            { $inc: { countInStock: -item.quantity } },
-            { new: true })
+export const decreaseStock = async (userCart) => {
+    for (const item of userCart.items) {
+        const product = item.product;
+        product.countInStock -= item.quantity;
+        await product.save();
     }
 
 }

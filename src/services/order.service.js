@@ -1,50 +1,49 @@
 // services/order.service.js
 import Cart from "../models/cart.model.js";
 import Order from "../models/order.model.js"
-import { calculateTotalPrice, decreaseStock, findCartByUserId } from "../utils/custom.js";
+import { calculateTotalPrice, decreaseStock } from "../utils/custom.js";
 import { CustomError } from "../utils/customeError.js";
-import logger from "../utils/logger.js"
 
 
 
-// Place a new order
-export const placeOrderService = async (userId, products, idempotencyKey, loggedInUser) => {
+export const placeOrderService = async (userId, loggedInUser) => {
 
-    // Find the cart associated with the user
-    const cart = await findCartByUserId(userId);
+
+    // Check if the logged-in user matches the userId
+    if (userId !== loggedInUser) {
+        throw new CustomError("You can only place an order for yourself.", 403);
+    }
+    // Fetch the user's cart and populate the product details
+    const userCart = await Cart.findOne({ user: userId }).populate('items.product', 'price countInStock');
+
+    // Check if the cart exists
+    if (!userCart) {
+        throw new CustomError("Cart not found for the user.", 404);
+    }
 
     // Check if the cart is empty
-    if (cart.items.length === 0) {
-        throw new Error("Your cart is empty. Please add items to your cart before placing an order.!");
+    if (userCart.items.length === 0) {
+        throw new CustomError("Your cart is empty. Please add items to your cart before placing an order.", 400);
     }
 
-    if (!products || products.length === 0) {
-        throw new Error("Products array cannot be empty");
-    }
+    const totalAmount = await calculateTotalPrice(userCart)
 
-    if (userId !== loggedInUser) {
-        throw new Error("You can only place an order for yourself.!");
-    }
+    await decreaseStock(userCart)
 
-    const existingOrder = await Order.findOne({ userId, idempotencyKey })
-
-    if (existingOrder) {
-        logger.info("The order already exist ")
-        return existingOrder;
-    }
-
-    const totalAmount = await calculateTotalPrice(products)
-
+    // Place the order
     const newOrder = new Order({
-        userId, products, totalAmount, idempotencyKey
+        user: userId,
+        products: userCart.items,
+        totalAmount,
     });
 
+    // Save the order
     await newOrder.save();
 
-    // Update the stock for each product
-    await decreaseStock(products);
+    // Clear the cart after placing the order
+    await Cart.findOneAndUpdate({ user: userId }, { items: [] });
 
-    return { newOrder };
+    return newOrder;
 };
 
 // Get all orders for a user

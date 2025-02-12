@@ -1,7 +1,7 @@
 
 import express from 'express';
 import authenticateJWT from '../middleware/auth.middleware.js';
-import { createProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '../controllers/product.controller.js';
+import { createProduct, deleteProduct, getAllProducts, getProductById, searchProduct, updateProduct } from '../controllers/product.controller.js';
 import { authorizeRole } from '../middleware/authRole.middleware.js';
 
 const router = express.Router();
@@ -14,5 +14,14 @@ router.delete("admin/:id", authenticateJWT, authorizeRole(['admin']), deleteProd
 //public
 router.get("/getAll", getAllProducts)
 router.get("/:id", getProductById)
+
+
+
+// Product Search (by name, category, price)
+router.get("/", authenticateJWT, authorizeRole(['user']), searchProduct)
+
+
+// Filter Products (by category, price range, rating)
+// Sort Products (by price, rating, popularity)
 
 export default router;

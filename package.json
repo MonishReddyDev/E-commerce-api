@@ -26,6 +26,7 @@
     "mongoose": "^8.9.5",
     "morgan": "^1.10.0",
     "npm": "^11.1.0",
+    "rate-limiter-flexible": "^5.0.5",
     "stripe": "^17.6.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"

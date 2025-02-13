@@ -11,10 +11,13 @@ import globalErrorHandler from "./middleware/errorHandling.middleware.js";
 import loggerMiddleware from "./middleware/logger.middleware.js";
 import paymentRoute from "./routes/payment.routes.js"
 import bodyParser from "body-parser"
+import rateLimittingMiddleware from "./middleware/rateLimitter.middleware.js";
 
 
 export const app = express();
+
 app.use(express.json());
+app.use(rateLimittingMiddleware)
 app.use(cookieParser());
 app.use(bodyParser.json());
 

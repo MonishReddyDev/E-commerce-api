@@ -1,4 +1,5 @@
 
+import mongoose from "mongoose";
 import Product from "../models/product.model.js"
 import { CustomError } from "../utils/CustomeError.js"
 import { ERROR_MESSAGES } from "../utils/messages.js";
@@ -63,6 +64,10 @@ export const createProductService = async (name, description, price, countInStoc
 };
 
 export const getProductByIdService = async (id) => {
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new Error(`Invalid Product ID: ${id}`);
+    }
 
     const product = await Product.findById(id)
 

@@ -1,5 +1,5 @@
 
-import Product from "../models/product.model.js";
+import mongoose from "mongoose";
 import { createProductService, deleteProductService, getAllProductsService, getProductByIdService, searchProductService, updateProductService } from "../services/product.service.js"; import asyncErrorHandler from "../utils/asyncErrorHandler.js";
 import { responseMessages } from "../utils/messages.js";
 import sendSuccessResponse from "../utils/responseHandler.js"
@@ -84,3 +84,4 @@ export const searchProduct = asyncErrorHandler(async (req, res) => {
         Total_Products: products.total
     })
 })
+

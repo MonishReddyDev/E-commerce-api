@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
 const ProdustSchema = new Schema({
-
     name: {
         type: String,
         required: true,

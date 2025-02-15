@@ -12,6 +12,8 @@ import loggerMiddleware from "./middleware/logger.middleware.js";
 import paymentRoute from "./routes/payment.routes.js"
 import bodyParser from "body-parser"
 import rateLimittingMiddleware from "./middleware/rateLimitter.middleware.js";
+import { scheduleStockCheck } from "./cron/stockCronJob.js";
+
 
 
 export const app = express();
@@ -29,7 +31,8 @@ export const PORT = process.env.PORT || 3000;
 //connect database
 connectDB()
 
-
+//Low Stock Check 
+// scheduleStockCheck()
 
 // Use auth routes
 app.use('/api/auth', authRoutes);

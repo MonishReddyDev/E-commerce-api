@@ -22,7 +22,8 @@ export const placeOrderService = async (userId) => {
         throw new CustomError(ERROR_MESSAGES.CART_EMPTY, 400);
     }
 
-    const totalAmount = await calculateTotalPrice(userCart)
+    let totalAmount = await calculateTotalPrice(userCart)
+    totalAmount = (totalAmount * 100) / 100
 
     await decreaseStock(userCart)
 

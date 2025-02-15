@@ -1,8 +1,9 @@
 
 import mongoose from "mongoose";
 import Product from "../models/product.model.js"
-import { CustomError } from "../utils/CustomeError.js"
+import { CustomError } from "../utils/customeError.js"
 import { ERROR_MESSAGES } from "../utils/messages.js";
+
 
 
 
@@ -23,13 +24,22 @@ export const searchProductService = async (page, limit, searchQuery, sortField, 
     const sort = {}
     sort[sortField] = sortOrder === 'asc' ? 1 : -1
 
+
     // 5. Execute query with pagination and sorting
     const products = await Product.find(query).sort(sort).skip(skip).limit(limit)
 
     // 6. Get total count for pagination
     const total = await Product.countDocuments(query);
 
-    return { products, total }
+    const result = {
+        products,
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        Total_Products: total
+    }
+
+
+    return { result }
 
 
 }

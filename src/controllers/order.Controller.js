@@ -1,5 +1,6 @@
 import { getAnyUserOrdersService, placeOrderService, updateOrderService } from "../services/order.service.js";
 import asyncErrorHandler from "../utils/asyncErrorHandler.js"
+import { responseMessages } from "../utils/messages.js";
 import sendSuccessResponse from "../utils/responseHandler.js"
 
 
@@ -12,7 +13,7 @@ export const placeOrder = asyncErrorHandler(async (req, res) => {
     // Call the service to place the order
     const newOrder = await placeOrderService(userId);
 
-    sendSuccessResponse(res, 201, "Order placed successfully.", newOrder)
+    sendSuccessResponse(res, 201, responseMessages.ordercreated, { newOrder })
 
 });
 
@@ -24,7 +25,7 @@ export const getAnyUserOrders = asyncErrorHandler(async (req, res) => {
     // Call the service to fetch all orders
     const orders = await getAnyUserOrdersService(userId);
 
-    sendSuccessResponse(res, 200, "Success", orders)
+    sendSuccessResponse(res, 200, responseMessages.ordercreated, { orders })
 
 });
 
@@ -35,7 +36,7 @@ export const getUserOrders = asyncErrorHandler(async (req, res) => {
 
     // Call the service to fetch all orders
     const orders = await getAnyUserOrdersService(userId);
-    sendSuccessResponse(res, 200, "Success", orders)
+    sendSuccessResponse(res, 200, responseMessages.success, { orders })
 
 });
 
@@ -45,8 +46,8 @@ export const updateOrder = asyncErrorHandler(async (req, res) => {
     const { orderId } = req.params;
 
     // Call the service function to update the order
-    const result = await updateOrderService(orderId, status);
+    const result = (await updateOrderService(orderId, status)).updatedOrder;
 
-    sendSuccessResponse(res, 200, "Success", result.updatedOrder)
+    sendSuccessResponse(res, 200, responseMessages.success, { result })
 
 });

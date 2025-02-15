@@ -1,19 +1,20 @@
 import { Redis } from "ioredis";
+import logger from "../utils/logger.js";
 
 // Create a Redis client
-const client = new Redis({
+const redisclient = new Redis({
     host: "localhost",
     port: 6379,
 });
 
 
 // Handle connection errors
-client.on("connect", () => {
-    console.log("Connected to Redis");
+redisclient.on("connect", () => {
+    logger.info("Connected to Redis");
 });
 
-client.on("error", (err) => {
-    console.error("Redis connection error:", err);
+redisclient.on("error", (err) => {
+    logger.error("Redis connection error:", err);
 });
 
 
@@ -22,4 +23,4 @@ client.on("error", (err) => {
 
 
 // Export the client for reuse
-export default client;
+export default redisclient;

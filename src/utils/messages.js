@@ -33,8 +33,13 @@ export const ERROR_MESSAGES = {
 
 
 
+export const SEARCH_MESSAGES = {
+    SUCCESS: "Product Fetched SuccessFull"
+}
+
 
 export const responseMessages = {
+    success: "Success",
     registerUser: "User created successfully",
     loginUser: "User logged in successfully",
     logoutUser: "User logged out successfully",
@@ -42,5 +47,6 @@ export const responseMessages = {
     getAllProducts: "Products fetched successfully",
     getProductById: "Product retrieved successfully",
     updateProduct: "Product updated successfully",
-    deleteProduct: "Product deleted successfully"
+    deleteProduct: "Product deleted successfully",
+    ordercreated: "Order placed successfully."
 }

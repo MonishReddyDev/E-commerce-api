@@ -1,6 +1,9 @@
+import redisclient from "../config/redis.config.js"
 import { searchProductService } from "../services/product.service.js"
 import asyncErrorHandler from "../utils/asyncErrorHandler.js"
+import { SEARCH_MESSAGES } from "../utils/messages.js"
 import sendSuccessResponse from "../utils/responseHandler.js"
+
 
 
 
@@ -13,15 +16,23 @@ export const searchProduct = asyncErrorHandler(async (req, res) => {
     const sortField = req.query.sortField || 'price'
     const sortOrder = req.query.sortOrder || 'asc';
 
-    const { products, total } = await searchProductService(page, limit, searchQuery, sortField, sortOrder)
 
+    //create the key
+    const cacheKey = `search=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`
 
-    const result = {
-        products,
-        currentPage: page,
-        totalPages: Math.ceil(total / limit),
-        Total_Products: total
+    //Get the cache data after true condition
+    const currentCache = await redisclient.get(cacheKey)
+
+    if (currentCache) {
+        return sendSuccessResponse(res, 200, SEARCH_MESSAGES.SUCCESS, JSON.parse(currentCache))
     }
 
-    sendSuccessResponse(res, 200, "Product Fetched SuccessFull", result)
+    const result = await searchProductService(page, limit, searchQuery, sortField, sortOrder)
+
+    //set the cache 
+    await redisclient.setex(cacheKey, 120, JSON.stringify(result))
+
+
+    return sendSuccessResponse(res, 200, SEARCH_MESSAGES.SUCCESS, result)
+
 })

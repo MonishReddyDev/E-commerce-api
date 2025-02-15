@@ -2,7 +2,7 @@
 import express from 'express';
 import authenticateJWT from '../middleware/auth.middleware.js';
 import { authorizeRole } from '../middleware/authRole.middleware.js';
-import { createProduct, deleteProduct, getAllProducts, getProductById, searchProduct, updateProduct } from '../controllers/product.Controller.js';
+import { createProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '../controllers/product.Controller.js';
 
 const router = express.Router();
 
@@ -15,8 +15,6 @@ router.delete("/admin/:id", authenticateJWT, authorizeRole(['admin']), deletePro
 router.get("/getAll", getAllProducts)
 
 
-// Product Search (by name, category, price)
-router.get("/", authenticateJWT, authorizeRole(['user']), searchProduct)
 
 
 router.get("/:id", getProductById)

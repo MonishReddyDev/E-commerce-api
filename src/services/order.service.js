@@ -4,6 +4,7 @@ import Order from "../models/order.model.js"
 import { calculateTotalPrice, decreaseStock } from "../utils/custom.js";
 import { CustomError } from "../utils/customeError.js";
 import User from "../models/user.model.js"
+import { ERROR_MESSAGES } from "../utils/messages.js";
 
 
 export const placeOrderService = async (userId) => {
@@ -13,12 +14,12 @@ export const placeOrderService = async (userId) => {
 
     // Check if the cart exists
     if (!userCart) {
-        throw new CustomError("Cart not found for the user.", 404);
+        throw new CustomError(ERROR_MESSAGES.CART_NOT_FOUND_USER, 404);
     }
 
     // Check if the cart is empty
     if (userCart.items.length === 0) {
-        throw new CustomError("Your cart is empty. Please add items to your cart before placing an order.", 400);
+        throw new CustomError(ERROR_MESSAGES.CART_EMPTY, 400);
     }
 
     const totalAmount = await calculateTotalPrice(userCart)
@@ -28,7 +29,7 @@ export const placeOrderService = async (userId) => {
     // Get the username of the user who placed the order
     const user = await User.findById(userId);
     if (!user) {
-        throw new CustomError("User not found.", 404);
+        throw new CustomError(ERROR_MESSAGES.USER_NOT_FOUND, 404);
     }
 
     const username = user.username;  // Get the username
@@ -48,7 +49,7 @@ export const placeOrderService = async (userId) => {
         // Save the order only if all checks pass and stock is successfully decreased
         await newOrder.save();
     } catch (error) {
-        throw new CustomError("Error occurred while placing the order.", 500); // If order save fails, stop here
+        throw new CustomError(ERROR_MESSAGES.ORDER_SAVE_ERROR, 500); // If order save fails, stop here
     }
 
     return newOrder;
@@ -60,7 +61,7 @@ export const getAnyUserOrdersService = async (userId) => {
 
     const orders = await Order.find({ userId });
     if (!orders || orders.length === 0) {
-        throw new CustomError("No orders found for this user", 404);
+        throw new CustomError(ERROR_MESSAGES.NO_ORDERS_FOUND, 404);
     }
     return orders;
 };
@@ -74,7 +75,7 @@ export const updateOrderService = async (orderId, status) => {
     );
 
     if (!updatedOrder) {
-        throw new CustomError("Order not found", 404);
+        throw new CustomError(ERROR_MESSAGES.NO_ORDERS_FOUND, 404);
     }
 
     return { updatedOrder };

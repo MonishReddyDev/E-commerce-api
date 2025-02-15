@@ -66,7 +66,7 @@ export const createProductService = async (name, description, price, countInStoc
 export const getProductByIdService = async (id) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new Error(`Invalid Product ID: ${id}`);
+        throw new Error(`${ERROR_MESSAGES.INVALID_PRODUCT_ID}: ${id}`);
     }
 
     const product = await Product.findById(id)
@@ -80,6 +80,7 @@ export const getProductByIdService = async (id) => {
 export const getAllProductsService = async () => {
     // Fetch all products from the database
     const products = await Product.find();
+
     return products; // Return the fetched products
 };
 

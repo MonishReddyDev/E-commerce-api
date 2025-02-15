@@ -1,5 +1,3 @@
-
-import mongoose from "mongoose";
 import { createProductService, deleteProductService, getAllProductsService, getProductByIdService, searchProductService, updateProductService } from "../services/product.service.js"; import asyncErrorHandler from "../utils/asyncErrorHandler.js";
 import { responseMessages } from "../utils/messages.js";
 import sendSuccessResponse from "../utils/responseHandler.js"
@@ -66,22 +64,4 @@ export const deleteProduct = asyncErrorHandler(async (req, res) => {
 });
 
 
-export const searchProduct = asyncErrorHandler(async (req, res) => {
-
-    // 1. Get query parameters with defaults
-    const page = parseInt(req.query.page) || 1
-    const limit = parseInt(req.query.limit) || 10
-    const searchQuery = req.query.search || ""
-    const sortField = req.query.sortField || 'price'
-    const sortOrder = req.query.sortOrder || 'asc';
-
-    const products = await searchProductService(page, limit, searchQuery, sortField, sortOrder)
-
-    res.json({
-        products,
-        currentPage: page,
-        totalPages: Math.ceil(products.total / limit),
-        Total_Products: products.total
-    })
-})
 

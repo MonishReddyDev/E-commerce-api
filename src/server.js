@@ -9,7 +9,6 @@ import cartRoute from "./routes/cart.routes.js"
 import orderRoute from "./routes/order.routes.js"
 import globalErrorHandler from "./middleware/errorHandling.middleware.js";
 import loggerMiddleware from "./middleware/logger.middleware.js";
-import paymentRoute from "./routes/payment.routes.js"
 import bodyParser from "body-parser"
 import rateLimittingMiddleware from "./middleware/rateLimitter.middleware.js";
 import { scheduleStockCheck } from "./cron/stockCronJob.js";
@@ -32,14 +31,13 @@ export const PORT = process.env.PORT || 3000;
 connectDB()
 
 //Low Stock Check 
-// scheduleStockCheck()
+scheduleStockCheck()
 
 // Use auth routes
 app.use('/api/auth', authRoutes);
 app.use('/api/product', productRoute);
 app.use("/api/cart", cartRoute)
 app.use("/api/order", orderRoute)
-app.use("/api", paymentRoute)
 
 
 

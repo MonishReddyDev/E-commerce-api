@@ -2,7 +2,7 @@
 import express from 'express';
 import authenticateJWT from '../middleware/auth.middleware.js';
 import { authorizeRole } from '../middleware/authRole.middleware.js';
-import { searchProduct } from '../controllers/search.controller.js';
+import { searchProduct } from '../controllers/search.Controller.js';
 
 const router = express.Router();
 

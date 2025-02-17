@@ -13,7 +13,10 @@ import bodyParser from "body-parser"
 import rateLimittingMiddleware from "./middleware/rateLimitter.middleware.js";
 import { scheduleStockCheck } from "./cron/stockCronJob.js";
 import searchRoute from "./routes/search.routes.js"
+// import Stripe from ("stripe")(process.env.STRIPE_SECRET_KEY);;
 
+// IMPORT STRIPE
+// const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const app = express();
 
@@ -33,6 +36,7 @@ connectDB()
 //Low Stock Check 
 // scheduleStockCheck()
 
+
 // Use auth routes
 app.use('/api/auth', authRoutes);
 app.use('/api/product', productRoute);
@@ -41,5 +45,7 @@ app.use("/api/order", orderRoute)
 app.use("/api", searchRoute)
 
 
-
 app.use(globalErrorHandler);
+
+
+

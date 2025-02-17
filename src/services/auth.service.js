@@ -15,7 +15,9 @@ export const registerUserService = async (username, password, email, role) => {
     }
 
     const user = new User({ username, password, email, role });
+
     await user.save();
+
     return user;
 };
 
@@ -40,3 +42,4 @@ export const userLoginService = async (email, password) => {
 
     return { user, token };
 };
+

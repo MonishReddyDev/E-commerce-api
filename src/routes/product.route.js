@@ -14,8 +14,5 @@ router.delete("/admin/:id", authenticateJWT, authorizeRole(['admin']), deletePro
 //public
 router.get("/getAll", getAllProducts)
 
-
-
-
 router.get("/:id", getProductById)
 export default router;

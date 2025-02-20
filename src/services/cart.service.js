@@ -97,7 +97,7 @@ export const removeFromCartService = async (productId, userId) => {
     }
 
     const productIndex = cart.items.findIndex(item => item.product.toString() === productId);
-    
+
     if (productIndex === -1) {
         throw new CustomError(ERROR_MESSAGES.PRODUCT_NOT_IN_CART, 404);
     }
@@ -107,7 +107,7 @@ export const removeFromCartService = async (productId, userId) => {
     await cart.save();
 
     const updatedCart = await Cart.findOne({ user: userId });
-    
+
     return updatedCart;
 };
 

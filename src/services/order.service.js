@@ -2,7 +2,8 @@ import Order from "../models/order.models/order.model.js"
 import { calculateTotalPrice, decreaseStock } from "../utils/custom.js";
 import { CustomError } from "../utils/customeError.js";
 import { ERROR_MESSAGES } from "../utils/messages.js";
-import { getUserCart, clearCart, createOrder, validateCart } from "../utils/helper.js"
+import { getUserCart, clearCart, validateCart } from "../helpers/cart.Helpers.js"
+import { createOrder } from "../utils/helper.js"
 import stripe from "../config/stripe.config.js"
 import CancelOrder from "../models/order.models/canceledOrder.model.js"
 

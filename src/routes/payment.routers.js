@@ -1,5 +1,5 @@
 import express from 'express'
-import { confirmPayment, createPaymentIntent } from '../controllers/paymentController.js';
+import { confirmPayment, createPaymentIntent } from '../controllers/payment.Controller.js';
 import authenticateJWT from "../middleware/auth.middleware.js"
 
 const router = express.Router()

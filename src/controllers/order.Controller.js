@@ -1,5 +1,8 @@
+
+import Order from "../models/order.models/order.model.js";
 import { getAnyUserOrdersService, updateOrderService } from "../services/order.service.js";
 import asyncErrorHandler from "../utils/asyncErrorHandler.js"
+import { CustomError } from "../utils/customeError.js";
 import { responseMessages } from "../utils/messages.js";
 import sendSuccessResponse from "../utils/responseHandler.js"
 
@@ -34,12 +37,12 @@ export const getUserOrders = asyncErrorHandler(async (req, res) => {
 
 // Update order status
 export const updateOrder = asyncErrorHandler(async (req, res) => {
-    const { status } = req.body;
+    const updates = req.body;
     const { orderId } = req.params;
 
-    // Call the service function to update the order
-    const result = (await updateOrderService(orderId, status)).updatedOrder;
+    const order = await updateOrderService(updates, orderId)
+    
 
-    sendSuccessResponse(res, 200, responseMessages.success, { result })
+    sendSuccessResponse(res, 200, responseMessages.success, { order })
 
 });

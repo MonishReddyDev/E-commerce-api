@@ -48,10 +48,6 @@ export const cancelOrderService = async (req, res) => {
             return res.status(403).json({ error: "Unauthorized to cancel this order" });
         }
 
-        // Check if order is cancelable
-        // if (order.orderStatus === "shipped" || order.orderStatus === 'delivered')
-        //     return res.status(400).json(`The order is already ${order.orderStatus} you can not cancel the order`)
-
         if (["shipped", "delivered"].includes(order.orderStatus)) {
             return res.status(400).json({
                 error: `The order is already ${order.orderStatus}. Cannot cancel the order.`
@@ -147,16 +143,27 @@ export const getAnyUserOrdersService = async (userId) => {
 };
 
 // Update an order's status
-export const updateOrderService = async (orderId, status) => {
-    const updatedOrder = await Order.findByIdAndUpdate(
-        orderId,
-        { status },
-        { new: true }
-    );
+export const updateOrderService = async (updates, orderId) => {
 
-    if (!updatedOrder) {
-        throw new CustomError(ERROR_MESSAGES.NO_ORDERS_FOUND, 404);
+    const allowedUpdates = ['orderStatus', 'paymentStatus', 'items', 'totalAmount']
+    const updateKeys = Object.keys(updates)
+    console.log(updateKeys)
+    const isValidUpdate = updateKeys.every(key => allowedUpdates.includes(key))
+
+    if (!isValidUpdate) {
+        throw new CustomError("Invalid fields to update", 400)
     }
 
-    return { updatedOrder };
+    const order = await Order.findByIdAndUpdate(
+        orderId,
+        { $set: updates },
+        { new: true, runValidators: true })
+
+    if (!order) {
+        throw new CustomError(ERROR_MESSAGES.ORDER_NOT_FOUND, 400)
+    }
+
+
+    return order
+
 };

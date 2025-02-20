@@ -15,7 +15,7 @@ router.get("/user", authenticateJWT, authorizeRole(['user', 'admin']), getUserOr
 router.get("/admin/:userId", authenticateJWT, authorizeRole(['admin']), getAnyUserOrders)
 
 //Update order status
-router.put("/:orderId/status", authenticateJWT, authorizeRole(['admin']), updateOrder)
+router.put("/admin/:orderId", authenticateJWT, authorizeRole(['admin']), updateOrder)
 
 
 export default router;

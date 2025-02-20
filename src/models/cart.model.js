@@ -24,8 +24,9 @@ const cartSchema = Schema({
     { timestamps: true }
 )
 
-//TTL index to auto-delete the Cart after 7 days
-cartSchema.index({ createdAt: 1 }, { expireAfterSeconds: 7 * 24 * 60 * 60 })
+
+// //TTL index to auto-delete the Cart after 7 days
+// cartSchema.index({ createdAt: 1 }, { expireAfterSeconds: 7 * 24 * 60 * 60 })
 
 const Cart = mongoose.model("Cart", cartSchema)
 

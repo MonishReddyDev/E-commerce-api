@@ -1,21 +1,13 @@
-import { getAnyUserOrdersService, placeOrderService, updateOrderService } from "../services/order.service.js";
+import { getAnyUserOrdersService, updateOrderService } from "../services/order.service.js";
 import asyncErrorHandler from "../utils/asyncErrorHandler.js"
 import { responseMessages } from "../utils/messages.js";
 import sendSuccessResponse from "../utils/responseHandler.js"
 
 
 
-export const placeOrder = asyncErrorHandler(async (req, res) => {
 
-    // const userId = req.user.id;
-    const userId = req.body.userId;
 
-    // Call the service to place the order
-    const newOrder = await placeOrderService(userId);
 
-    sendSuccessResponse(res, 201, responseMessages.ordercreated, { newOrder })
-
-});
 
 // Get any orders of a user
 export const getAnyUserOrders = asyncErrorHandler(async (req, res) => {

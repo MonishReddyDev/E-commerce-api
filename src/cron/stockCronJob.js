@@ -7,7 +7,7 @@ const cronForEveryHour = "0 */1 * * *"; // Every hour
 
 
 export const scheduleStockCheck = () => {
-    cron.schedule(cronForEveryMinute, async () => {
+    cron.schedule(cronForEveryHour, async () => {
         try {
             await checkLowStock();
             logger.info('Low stock check completed!')

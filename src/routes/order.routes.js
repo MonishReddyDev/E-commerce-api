@@ -1,13 +1,14 @@
 import express from "express";
 import authenticateJWT from "../middleware/auth.middleware.js";
-import { getAnyUserOrders, getUserOrders, placeOrder, updateOrder } from "../controllers/order.controller.js";
+import { getAnyUserOrders, getUserOrders, updateOrder } from "../controllers/order.Controller.js";
 import { authorizeRole } from "../middleware/authRole.middleware.js";
+import { cancelOrderService } from "../services/order.service.js"
+
 
 const router = express.Router();
 
 
-
-router.post("/create", authenticateJWT, authorizeRole(['admin', 'user']), placeOrder)
+router.post('/cancel', authenticateJWT, cancelOrderService)
 
 router.get("/user", authenticateJWT, authorizeRole(['user', 'admin']), getUserOrders)
 

@@ -14,6 +14,7 @@ export const addToCart = asyncErrorHandler(async (req, res) => {
     // Call the service to add product to cart
     const cart = await addToCartService(productId, userId, quantity);
 
+    console.log(cart)
 
     sendSuccessResponse(res, 200, "Product added to cart", { cart })
 

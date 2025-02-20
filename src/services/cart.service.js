@@ -36,17 +36,28 @@ export const addToCartService = async (productId, userId, quantity) => {
 
     if (productIndex > -1) {
         cart.items[productIndex].quantity += quantity;
-        cart.items[productIndex].price = product.price * cart.items[productIndex].quantity;
+        cart.items[productIndex].price = Number(product.price * cart.items[productIndex].quantity).toFixed(2);;
+        console.log(" cart.items[productIndex].price ", cart.items[productIndex].price)
     } else {
         cart.items.push({
             product: productId,
             quantity,
-            price: product.price,
+            price: Number(product.price * quantity).toFixed(2),
         });
     }
 
     await cart.save();
-    return cart;
+
+    const structuredCart = {
+        _id: cart._id,
+        user: cart.user,
+        items: cart.items,
+        createdAt: cart.createdAt,
+        updatedAt: cart.updatedAt,
+        __v: cart.__v
+    };
+
+    return structuredCart;
 };
 
 // Update product from cart
@@ -80,19 +91,23 @@ export const updateCartService = async (productId, quantity, userId) => {
 // Remove product from cart
 export const removeFromCartService = async (productId, userId) => {
     const cart = await Cart.findOne({ user: userId });
+
     if (!cart) {
         throw new CustomError(ERROR_MESSAGES.CART_NOT_FOUND, 404);
     }
 
     const productIndex = cart.items.findIndex(item => item.product.toString() === productId);
+    
     if (productIndex === -1) {
         throw new CustomError(ERROR_MESSAGES.PRODUCT_NOT_IN_CART, 404);
     }
 
     cart.items.pull({ product: productId });
+
     await cart.save();
 
     const updatedCart = await Cart.findOne({ user: userId });
+    
     return updatedCart;
 };
 

@@ -1,5 +1,5 @@
 import Cart from "../models/cart.model.js";
-import { CustomError } from "./customeError.js";
+import { CustomError } from "./globalHandlers/customeError.js";
 
 
 

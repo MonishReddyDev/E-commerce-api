@@ -15,6 +15,11 @@ import { scheduleStockCheck } from "./cron/stockCronJob.js";
 import searchRoute from "./routes/search.routes.js"
 import webhookRoutes from "./routes/webhook.routes.js"
 import paymentRoutes from "./routes/payment.routers.js"
+import { insertBulkUsers } from "./config/db.test.js";
+
+
+
+
 
 export const app = express();
 
@@ -32,6 +37,8 @@ app.use(loggerMiddleware)
 export const PORT = process.env.PORT || 3000;
 
 //connect database
+// insertBulkUsers();
+
 connectDB()
 
 //Low Stock Check 

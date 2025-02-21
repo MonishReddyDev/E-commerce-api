@@ -1,6 +1,6 @@
 import { confirmPaymentService, createPaymentService } from "../services/payment.service.js";
-import asyncErrorHandler from "../utils/asyncErrorHandler.js"
-import sendSuccessResponse from "../utils/responseHandler.js"
+import asyncErrorHandler from '../utils/globalHandlers/asyncErrorHandler.js';
+import sendSuccessResponse from "../utils/globalHandlers/responseHandler.js"
 
 
 

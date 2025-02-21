@@ -1,8 +1,8 @@
 import redisclient from "../config/redis.config.js"
 import { searchProductService } from "../services/product.service.js"
-import asyncErrorHandler from "../utils/asyncErrorHandler.js"
+import asyncErrorHandler from '../utils/globalHandlers/asyncErrorHandler.js';
 import { SEARCH_MESSAGES } from "../utils/messages.js"
-import sendSuccessResponse from "../utils/responseHandler.js"
+import sendSuccessResponse from "../utils/globalHandlers/responseHandler.js"
 
 
 

@@ -1,7 +1,7 @@
 import Cart from "../models/cart.model.js"
 import { ERROR_MESSAGES } from "../utils/messages.js"
 import logger from "../utils/logger.js"
-import { CustomError } from "../utils/customeError.js";
+import { CustomError } from "../utils/globalHandlers/customeError.js";
 
 
 export const getUserCart = async (userId) => {

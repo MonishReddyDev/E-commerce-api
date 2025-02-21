@@ -1,6 +1,6 @@
 import Product from "../models/product.model.js"
 import Cart from "../models/cart.model.js"
-import { CustomError } from "../utils/customeError.js"
+import { CustomError } from "../utils/globalHandlers/customeError.js"
 import { ERROR_MESSAGES } from "../utils/messages.js";
 
 

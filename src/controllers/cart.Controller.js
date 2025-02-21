@@ -1,6 +1,6 @@
 import { addToCartService, getUserCartByUserIdService, removeFromCartService, updateCartService } from "../services/cart.service.js";
-import asyncErrorHandler from "../utils/asyncErrorHandler.js";
-import sendSuccessResponse from "../utils/responseHandler.js";
+import asyncErrorHandler from '../utils/globalHandlers/asyncErrorHandler.js';
+import sendSuccessResponse from "../utils/globalHandlers/responseHandler.js";
 
 
 

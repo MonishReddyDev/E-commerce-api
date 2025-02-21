@@ -2,7 +2,7 @@ import Joi from "joi";
 
 // Define validation schema
 export const registerSchema = Joi.object({
-    username: Joi.string().min(3).max(30).regex(/^[A-Za-z]+$/).
+    username: Joi.string().min(3).max(30).regex(/^[A-Za-z-0-9]+$/).
         required().messages({
             "string.base": "username must be a string",
             "string.empty": "username is required",

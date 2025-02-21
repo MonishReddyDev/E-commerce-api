@@ -1,7 +1,7 @@
 import { getAnyUserOrdersService, updateOrderService } from "../services/order.service.js";
-import asyncErrorHandler from "../utils/asyncErrorHandler.js"
+import asyncErrorHandler from '../utils/globalHandlers/asyncErrorHandler.js';
 import { responseMessages } from "../utils/messages.js";
-import sendSuccessResponse from "../utils/responseHandler.js"
+import sendSuccessResponse from "../utils/globalHandlers/responseHandler.js"
 
 
 // Get any orders of a user

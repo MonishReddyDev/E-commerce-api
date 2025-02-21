@@ -1,6 +1,7 @@
 import { transporter } from "../config/email.Config.js";
 import logger from "../utils/logger.js"
-import { CustomError } from "./CustomeError.js";
+import { CustomError } from "./globalHandlers/customeError.js";
+
 
 
 const sendMail = async (to, subject, message) => {

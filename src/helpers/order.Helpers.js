@@ -1,10 +1,6 @@
 import Order from "../models/order.models/order.model.js";
 
 
-
-
-
-
 export const createOrder = async (userId, cart, totalAmount, paymentMethod, paymentStatus, paymentIntentId) => {
     try {
         const order = new Order({

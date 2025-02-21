@@ -1,6 +1,6 @@
 import Cart from "../models/cart.model.js";
 import stripe from "../config/stripe.config.js"
-import { CustomError } from "../utils/customeError.js"
+import { CustomError } from "../utils/globalHandlers/customeError.js"
 
 
 export const createPaymentService = async (userId) => {

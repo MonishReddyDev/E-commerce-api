@@ -1,6 +1,7 @@
-import { createProductService, deleteProductService, getAllProductsService, getProductByIdService, searchProductService, updateProductService } from "../services/product.service.js"; import asyncErrorHandler from "../utils/asyncErrorHandler.js";
+import { createProductService, deleteProductService, getAllProductsService, getProductByIdService, updateProductService } from "../services/product.service.js";
+import asyncErrorHandler from '../utils/globalHandlers/asyncErrorHandler.js';
 import { responseMessages } from "../utils/messages.js";
-import sendSuccessResponse from "../utils/responseHandler.js"
+import sendSuccessResponse from "../utils/globalHandlers/responseHandler.js"
 
 
 

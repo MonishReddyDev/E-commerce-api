@@ -1,7 +1,7 @@
 import cookie from 'cookie';
 import { registerUserService, userLoginService } from "../services/auth.service.js";
-import asyncErrorHandler from '../utils/asyncErrorHandler.js';
-import sendSuccessResponse from '../utils/responseHandler.js';
+import asyncErrorHandler from '../utils/globalHandlers/asyncErrorHandler.js';
+import sendSuccessResponse from '../utils/globalHandlers/responseHandler.js';
 import { responseMessages } from '../utils/messages.js';
 
 

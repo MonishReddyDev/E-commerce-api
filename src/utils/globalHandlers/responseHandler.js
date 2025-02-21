@@ -5,7 +5,7 @@ const sendSuccessResponse = (res, statusCode = 200, message = "success", data = 
         status: 'success',
         statusCode,
         message,
-        ...data
+        data
     })
 }
 

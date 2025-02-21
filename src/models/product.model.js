@@ -26,6 +26,14 @@ const ProdustSchema = new Schema({
         type: String,
         required: true,
         index: true
+    },
+    averageRating: {
+        type: Number,
+        default: 0
+    },
+    totalRatings: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true

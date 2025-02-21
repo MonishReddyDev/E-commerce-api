@@ -16,7 +16,8 @@ import searchRoute from "./routes/search.routes.js"
 import webhookRoutes from "./routes/webhook.routes.js"
 import paymentRoutes from "./routes/payment.routers.js"
 import { insertBulkUsers } from "./config/db.test.js";
-
+import feedbackRoutes from "./routes/feedBack.routes.js"
+import { insertProducts } from "./config/producbulktest.js";
 
 
 
@@ -38,8 +39,11 @@ export const PORT = process.env.PORT || 3000;
 
 //connect database
 // insertBulkUsers();
+// insertProducts();
 
 connectDB()
+
+
 
 //Low Stock Check 
 scheduleStockCheck()
@@ -52,6 +56,7 @@ app.use("/api/cart", cartRoute)
 app.use("/api/order", orderRoute)
 app.use("/api", searchRoute)
 app.use('/api/payment', paymentRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 
 app.use(globalErrorHandler);
